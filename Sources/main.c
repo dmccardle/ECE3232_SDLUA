@@ -33,8 +33,60 @@
 #include "fsl_device_registers.h"
 #include "MK64F12.h"
 
+// Enable Port B pins 3,10,11 for output
+void initializeGPIO_LEDs() {
+
+}
+
+// Enable Port B pin 22 for output, and Port E pin 26 for output
+void initializeGPIO_RGBLED() {
+
+}
+
+// Enable Port C pin 6 for input
+void initializeGPIO_PushButton() {
+
+}
+
+// Enable multiple ports + pins
+void initializeGPIO() {
+	initializeGPIO_LEDs();
+	initializeGPIO_RGBLED();
+	initializeGPIO_PushButton();
+}
+
+// Enable UART0 with PortB: Pins 16+17
+void initializeUART() {
+
+}
+
+// Enable DAC0 with header pin DAC0_OUT
+void initializeDAC() {
+
+}
+
+// Enable ADC0 with header pin ADC0_DP1
+void initializeADC() {
+
+}
+
+void initializeFlexTimer() {
+
+}
+
+void initializeModules() {
+	initializeGPIO();
+	initializeUART();
+	initializeDAC();
+	initializeADC();
+	initializeFlexTimer();
+}
+
 int main(void) {
-    while(1) {
+
+	initializeModules();
+
+	while(1) {
 
     }
 }
