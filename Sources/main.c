@@ -28,22 +28,13 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+// Authors: Danny McCardle, Tayler Harvey
+
 #include "fsl_device_registers.h"
+#include "MK64F12.h"
 
-static int i = 0;
+int main(void) {
+    while(1) {
 
-int main(void)
-{
-
-    /* Write your code here */
-
-    /* This for loop should be replaced. By default this loop allows a single stepping. */
-    for (;;) {
-        i++;
     }
-    /* Never leave main */
-    return 0;
 }
-////////////////////////////////////////////////////////////////////////////////
-// EOF
-////////////////////////////////////////////////////////////////////////////////
