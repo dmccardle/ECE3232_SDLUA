@@ -32,6 +32,9 @@
 
 #include "fsl_device_registers.h"
 #include "MK64F12.h"
+#define GREEN "green"
+#define RED "red"
+#define MAX_THRESHOLD 10
 
 // Enable Port B pins 3,10,11 for output
 void initializeGPIO_LEDs() {
@@ -82,11 +85,48 @@ void initializeModules() {
 	initializeFlexTimer();
 }
 
+void startAlarmSequence() {
+	turnOnFirstLED();
+	sound_input = getMicInput();
+	alarmPlayed = 0;
+	while(!alarmPlayed) {
+		sound_input = getMicInput();
+		if (sound_input < MAX_THRESHOLD) {
+			turnOnSecondLED();
+			turnOnThirdLED();
+			playAlarm();
+			alarmPlayed = 1;
+		}
+
+		if (currentTime >= startTime + 10) {
+			turnOnSecondLED();
+		}
+
+		if (currentTime >= startTime + 20) {
+			turnOnThirdLED();
+		}
+
+		// if stop button pressed, turn off alarm
+	}
+}
+
 int main(void) {
 
 	initializeModules();
 
 	while(1) {
+		setRGBColour(GREEN);
 
+		getAlarmTimeFromUser();
+
+		// wait for button press
+
+		setRGBColour(RED);
+
+		// calculate start time (time from user - 30 minutes)
+
+		// wait <start_time> amount
+
+		startAlarmSequence();
     }
 }
