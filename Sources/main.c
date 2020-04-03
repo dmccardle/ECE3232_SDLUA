@@ -39,6 +39,7 @@
 #include "uart_controller.h"
 #include "gpio_controller.h"
 #include "dac_controller.h"
+#include "adc_controller.h"
 
 #define GREEN "green"
 #define RED "red"
@@ -52,11 +53,6 @@
 int alarmTime; // time the alarm is set for
 int startTime; // time to start the alarm sequence
 int currentTime; // current time in the alarm sequence process
-
-// Enable ADC0 with header pin ADC0_DP1
-void initializeADC() {
-
-}
 
 void initializeFlexTimer() {
 
