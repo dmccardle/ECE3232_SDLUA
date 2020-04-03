@@ -32,9 +32,14 @@
 
 #include "fsl_device_registers.h"
 #include "MK64F12.h"
+
 #define GREEN "green"
 #define RED "red"
 #define MAX_THRESHOLD 10
+
+int alarmTime;
+int currentTime;
+int startTime;
 
 // Enable Port B pins 3,10,11 for output
 void initializeGPIO_LEDs() {
@@ -85,48 +90,87 @@ void initializeModules() {
 	initializeFlexTimer();
 }
 
+void playAlarm() {
+	// turn on all LEDs
+	turnOnFirstLED();
+	turnOnSecondLED();
+	turnOnThirdLED();
+
+	// starts playing alarm sound through the speaker
+	turnOnSpeaker();
+
+	// turn alarm off
+	waitForButtonPress();
+}
+
 void startAlarmSequence() {
 	turnOnFirstLED();
-	sound_input = getMicInput();
-	alarmPlayed = 0;
-	while(!alarmPlayed) {
-		sound_input = getMicInput();
-		if (sound_input < MAX_THRESHOLD) {
-			turnOnSecondLED();
-			turnOnThirdLED();
-			playAlarm();
-			alarmPlayed = 1;
-		}
+	turnOnMic();
 
-		if (currentTime >= startTime + 10) {
-			turnOnSecondLED();
-		}
+	int soundInput;
 
-		if (currentTime >= startTime + 20) {
-			turnOnThirdLED();
+	while(currentTime < startTime + 10) {
+		soundInput = getMicInput();
+		if (soundInput < MAX_THRESHOLD) {
+			// set the currentTime so the alarm will play
+			currentTime = alarmTime;
 		}
-
-		// if stop button pressed, turn off alarm
+		waitOneSecond();
+		currentTime++;
 	}
+
+	turnOnSecondLED();
+
+	while(currentTime < startTime + 20) {
+		soundInput = getMicInput();
+		if (soundInput < MAX_THRESHOLD) {
+			// set the currentTime so the alarm will play
+			currentTime = alarmTime;
+		}
+		waitOneSecond();
+		currentTime++;
+	}
+
+	turnOnThirdLED();
+
+	while (currentTime < alarmTime) {
+		soundInput = getMicInput();
+		if (soundInput < MAX_THRESHOLD) {
+			// set the currentTime so the alarm will play
+			currentTime = alarmTime;
+		}
+		waitOneSecond();
+		currentTime++;
+	}
+
+	playAlarm();
+}
+
+void stopAlarmSequence() {
+	turnOffSpeaker();
+	turnOffAllLEDs();
+	turnOffMic();
+	setRGBColour(GREEN);
+	startTime = currentTime = alarmTime = 0;
 }
 
 int main(void) {
-
 	initializeModules();
-
+	// repeat loop forever
 	while(1) {
-		setRGBColour(GREEN);
+		setRGBColour(GREEN); // update status light
 
-		getAlarmTimeFromUser();
+		displayWelcomeMessage();
 
-		// wait for button press
+		alarmTime = getAlarmTimeFromUser();
+		startTime = calculateStartTime(alarmTime)
 
-		setRGBColour(RED);
+		waitForButtonPress(); // turn alarm on
+		setRGBColour(RED); // update status light
 
-		// calculate start time (time from user - 30 minutes)
-
-		// wait <start_time> amount
+		waitUntilStartTime(startTime);
 
 		startAlarmSequence();
+		stopAlarmSequence();
     }
 }
