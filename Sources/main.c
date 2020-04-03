@@ -33,17 +33,23 @@
 #include "fsl_device_registers.h"
 #include "MK64F12.h"
 
+/*******************
+ * PROJECT INCLUDES
+********************/
+#include "uart_controller.h"
+
 #define GREEN "green"
 #define RED "red"
 #define MAX_THRESHOLD 10
 
 #define TEN_MINUTES 600
 #define TWENTY_MINUTES 1200
+#define THIRTY_MINUTES 1800
 
 /* Time variables. Stored as integer representing seconds (s). */
-int alarmTime;
-int currentTime;
-int startTime;
+int alarmTime; // time the alarm is set for
+int startTime; // time to start the alarm sequence
+int currentTime; // current time in the alarm sequence process
 
 // Enable Port B pins 3,10,11 for output
 void initializeGPIO_LEDs() {
@@ -67,11 +73,6 @@ void initializeGPIO() {
 	initializeGPIO_PushButton();
 }
 
-// Enable UART0 with PortB: Pins 16+17
-void initializeUART() {
-
-}
-
 // Enable DAC0 with header pin DAC0_OUT
 void initializeDAC() {
 
@@ -92,6 +93,11 @@ void initializeModules() {
 	initializeDAC();
 	initializeADC();
 	initializeFlexTimer();
+}
+
+// Helper method to compute the time to start the alarm sequence
+void calculateStartTime(int alarmTime) {
+	return alarmTime - THIRTY_MINUTES;
 }
 
 void playAlarm() {
@@ -167,7 +173,7 @@ int main(void) {
 		displayWelcomeMessage();
 
 		alarmTime = getAlarmTimeFromUser();
-		startTime = calculateStartTime(alarmTime)
+		startTime = calculateStartTime(alarmTime);
 
 		waitForButtonPress(); // turn alarm on
 		setRGBColour(RED); // update status light
