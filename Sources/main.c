@@ -37,6 +37,10 @@
 #define RED "red"
 #define MAX_THRESHOLD 10
 
+#define TEN_MINUTES 600
+#define TWENTY_MINUTES 1200
+
+/* Time variables. Stored as integer representing seconds (s). */
 int alarmTime;
 int currentTime;
 int startTime;
@@ -109,7 +113,7 @@ void startAlarmSequence() {
 
 	int soundInput;
 
-	while(currentTime < startTime + 10) {
+	while(currentTime < startTime + TEN_MINUTES) {
 		soundInput = getMicInput();
 		if (soundInput < MAX_THRESHOLD) {
 			// set the currentTime so the alarm will play
@@ -121,7 +125,7 @@ void startAlarmSequence() {
 
 	turnOnSecondLED();
 
-	while(currentTime < startTime + 20) {
+	while(currentTime < startTime + TWENTY_MINUTES) {
 		soundInput = getMicInput();
 		if (soundInput < MAX_THRESHOLD) {
 			// set the currentTime so the alarm will play
