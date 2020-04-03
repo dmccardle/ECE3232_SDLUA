@@ -37,6 +37,7 @@
  * PROJECT INCLUDES
 ********************/
 #include "uart_controller.h"
+#include "gpio_controller.h"
 
 #define GREEN "green"
 #define RED "red"
@@ -50,28 +51,6 @@
 int alarmTime; // time the alarm is set for
 int startTime; // time to start the alarm sequence
 int currentTime; // current time in the alarm sequence process
-
-// Enable Port B pins 3,10,11 for output
-void initializeGPIO_LEDs() {
-
-}
-
-// Enable Port B pin 22 for output, and Port E pin 26 for output
-void initializeGPIO_RGBLED() {
-
-}
-
-// Enable Port C pin 6 for input
-void initializeGPIO_PushButton() {
-
-}
-
-// Enable multiple ports + pins
-void initializeGPIO() {
-	initializeGPIO_LEDs();
-	initializeGPIO_RGBLED();
-	initializeGPIO_PushButton();
-}
 
 // Enable DAC0 with header pin DAC0_OUT
 void initializeDAC() {
