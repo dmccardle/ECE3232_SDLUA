@@ -10,7 +10,10 @@ Sources/main.o: ../Sources/main.c \
  ../SDK/platform/devices/MK64F12/include/MK64F12.h \
  ../SDK/platform/devices/MK64F12/include/fsl_bitaccess.h \
  ../SDK/platform/devices/MK64F12/include/MK64F12_features.h \
- ../SDK/platform/devices/MK64F12/include/MK64F12.h
+ ../SDK/platform/devices/MK64F12/include/MK64F12.h \
+ ../Sources/uart_controller.h ../Sources/gpio_controller.h \
+ ../Sources/dac_controller.h ../Sources/adc_controller.h \
+ ../Sources/clock_controller.h
 
 ../SDK/platform/devices/fsl_device_registers.h:
 
@@ -35,3 +38,13 @@ Sources/main.o: ../Sources/main.c \
 ../SDK/platform/devices/MK64F12/include/MK64F12_features.h:
 
 ../SDK/platform/devices/MK64F12/include/MK64F12.h:
+
+../Sources/uart_controller.h:
+
+../Sources/gpio_controller.h:
+
+../Sources/dac_controller.h:
+
+../Sources/adc_controller.h:
+
+../Sources/clock_controller.h:

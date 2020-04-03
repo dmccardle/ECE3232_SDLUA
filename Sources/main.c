@@ -40,6 +40,7 @@
 #include "gpio_controller.h"
 #include "dac_controller.h"
 #include "adc_controller.h"
+#include "clock_controller.h"
 
 #define GREEN "green"
 #define RED "red"
@@ -54,20 +55,16 @@ int alarmTime; // time the alarm is set for
 int startTime; // time to start the alarm sequence
 int currentTime; // current time in the alarm sequence process
 
-void initializeFlexTimer() {
-
-}
-
 void initializeModules() {
 	initializeGPIO();
 	initializeUART();
 	initializeDAC();
 	initializeADC();
-	initializeFlexTimer();
+	initializeRTC();
 }
 
 // Helper method to compute the time to start the alarm sequence
-void calculateStartTime(int alarmTime) {
+int calculateStartTime(int alarmTime) {
 	return alarmTime - THIRTY_MINUTES;
 }
 
